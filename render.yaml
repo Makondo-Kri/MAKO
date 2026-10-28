@@ -1,0 +1,19 @@
+# One-click setup for Render (https://render.com): New → Blueprint → pick this repo.
+# Free plan: good for trying it out. It sleeps after ~15 min idle (first visit then
+# takes ~1 min to wake) and has no disk, so dashboard numbers reset on restart.
+# For a real event, switch to a paid plan and add a disk mounted at /var/data.
+services:
+  - type: web
+    name: tiny-crowd
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATA_DIR
+        value: ./data
+      - key: DEMO_ORGANIZER_KEY
+        generateValue: true
